@@ -1,2 +1,3 @@
 #cacacaca
-x = poto 
+x = 5
+print(x)
