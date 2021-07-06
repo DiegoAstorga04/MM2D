@@ -6,7 +6,7 @@ import os
 #///////////////////////PROPIEDADES DE LA PANTALLA///////////////////////
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 720
-IMG_DIR = "imagenes"
+IMG_DIR = "sprites"
 
 #////////////////////////////CREAR LA VENTANA/////////////////////////
 pygame.init()
