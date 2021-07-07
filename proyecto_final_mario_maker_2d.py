@@ -76,6 +76,21 @@ walkfw = [load_image("MarioU1.png", IMG_DIR, alpha=True), load_image("MarioU2.pn
 walkbw = [load_image("MarioD1.png", IMG_DIR, alpha=True), load_image("MarioD2.png", IMG_DIR, alpha=True)]
 mario = spritemario()
 
+class vidas(pygame.sprite.Sprite):
+    "contador de vidas"
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("lives.png", IMG_DIR, alpha=True)
+
+class numero(pygame.sprite.Sprite):
+    "numeros del 1 al 5" #para las vidas
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = [load_image("n1.png", IMG_DIR, alpha=True), load_image("n2.png", IMG_DIR, alpha=True), load_image("n3.png", IMG_DIR, alpha=True), load_image("n4.png", IMG_DIR, alpha=True), load_image("n5.png", IMG_DIR, alpha=True)]
+
+
 #////////////////////////CARGAR LA IMAGEN DE FONDO //////////////////
 lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
 #////////////////////// CONFIGURACIÓN DE LOS FPS (ver linea 133)///////////////
@@ -87,11 +102,14 @@ def redrawGameWindow():
     lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
     p_inicio = inicio() 
     next_z = nextzone()
-     
+    lives = vidas()
+    num = numero()
     #CARGAR EL FONDO DEL NIVEL, LA PLATAFORMA DE INICIO Y EL CAMINO A LA SIGUIENTE ZONA
     screen.blit(lvl_bg,(0,0))
     screen.blit(p_inicio.image,(580,640))
     screen.blit(next_z.image,(580,0))
+    screen.blit(lives.image, (0,0))
+    screen.blit(num.image, (23,35))
 
     if walkcount + 1 >= 2:
         walkcount = 0
