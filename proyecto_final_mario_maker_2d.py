@@ -18,6 +18,8 @@ lvl = 1
 x = 585
 y= 640
 vel = 4
+volando = False
+vida = 5
 #////////////COMPROBACIÓN DE DIRECCIONES PARA MARIO//////////////
 left = False
 right = False
@@ -58,6 +60,21 @@ class nextzone(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image("next.png", IMG_DIR, alpha=True)
         self.rect = self.image.get_rect()
+
+class pared(pygame.sprite.Sprite):
+    
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("roca.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
+
+class catapulta(pygame.sprite.Sprite):
+
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("cannonxd.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
+
 
 #////////////////EL SPRITE DE MARIO ////////////////7
 class spritemario(pygame.sprite.Sprite):
@@ -100,25 +117,62 @@ clock = pygame.time.Clock()
 def redrawGameWindow():
     global walkcount
     global lvl
+    global vida
+    global x
+    global y
+    
     lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
     lvl_bg2 = load_image("background2.png", IMG_DIR, alpha=False)
     p_inicio = inicio() 
     next_z = nextzone()
     lives = vidas()
+    roca = pared()
+    cannon = catapulta()
     #CARGAR EL FONDO DEL NIVEL, LA PLATAFORMA DE INICIO Y EL CAMINO A LA SIGUIENTE ZONA
     
-    #si la variable lvl es 1 se muestra el nivel 1, si es 2 se muestra el nivel 2
-    #ver linea 204
+
     if lvl == 1:
         screen.blit(lvl_bg,(0,0))
         screen.blit(p_inicio.image,(580,640))
         screen.blit(next_z.image,(580,0))
+        screen.blit(roca.image,(540,0))
+        screen.blit(roca.image,(540,40))
+        screen.blit(roca.image,(620,0))
+        screen.blit(roca.image,(620,40))
     elif lvl == 2:
         screen.blit(lvl_bg2,(0,0))
-    
+        screen.blit(cannon.image, (800,620))
+        screen.blit(cannon.image, (70,380))
+
+        #detección del precipicio 1
+        if volando is False:
+            if x >= 0 and x <= 1200:
+                if y >= 472 and y <= 564:
+                    x = 585
+                    y = 640
+                    vida -= 1
+
+        #detección del precipicio 2
+        if volando is False:
+            if x >= 0 and x <= 1200:
+                if y >= 160 and y <= 296:
+                    x = 585
+                    y = 640
+                    vida -= 1
     
     screen.blit(lives.image, (0,0))
-    screen.blit(vida5, (120,42))
+    
+
+    if vida == 5:
+        screen.blit(vida5, (120,42))
+    elif vida == 4:
+        screen.blit(vida4, (120,42))
+    elif vida == 3:
+        screen.blit(vida3, (120,42))
+    elif vida ==2:
+        screen.blit(vida2, (120,42))
+    elif vida == 1:
+        screen.blit(vida1, (120,42))
 
     if walkcount + 1 >= 2:
         walkcount = 0
@@ -157,6 +211,7 @@ def main():
     global down
     global walkcount
     global lvl
+    global vida
     
    ##############LINEA 133, FPS///////////////
     clock.tick(60)
@@ -200,16 +255,17 @@ def main():
             left = False
             right = False
             walkcount = 0
-        
-        #esto es una idea que tuve, cuando la posición de mario sea la posición de la wea que indica el camino a la nueva zona
-        #la variable lvl cambia a 2 y pasa al segundo nivel
-        #eso es en teoría, en la practica no se por qué no funciona
-        #ver linea 110
 
         #para pasar al 2do nivel
         if x >= 580 and x <= 590:
-            if y >= 42 and y <= 46:
+            if y >= 0 and y <= 10:
                 lvl = 2
+                #x = 585
+                #y= 640
+        
+        
+
+        
         print(x,y)
         #//////////LA FUNCIÓN PARA ANIMAR A MARIO////////////
         redrawGameWindow()
