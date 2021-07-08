@@ -207,10 +207,10 @@ def main():
         #ver linea 110
 
         #para pasar al 2do nivel
-        if x == 580 or x == 581 or x == 582 or x == 583 or x == 584 or x == 585 or x == 586 or x == 587 or x == 588 or x == 589 or x == 590:
-            if y == 25:
+        if x >= 580 and x <= 590:
+            if y >= 42 and y <= 46:
                 lvl = 2
-
+        print(x,y)
         #//////////LA FUNCIÓN PARA ANIMAR A MARIO////////////
         redrawGameWindow()
 
