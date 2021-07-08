@@ -13,11 +13,11 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Mario Maker 2D")
 
-
+lvl = 1
 #///////////////////VARIABLES PARA EL SPRITE DE MARIO/////////////////
 x = 585
 y= 640
-vel = 1
+vel = 4
 #////////////COMPROBACIÓN DE DIRECCIONES PARA MARIO//////////////
 left = False
 right = False
@@ -92,20 +92,31 @@ vida5 = load_image("n5.png", IMG_DIR, alpha=True)
 
 #////////////////////////CARGAR LA IMAGEN DE FONDO //////////////////
 lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
+lvl_bg2 = load_image("background2.png", IMG_DIR, alpha=False)
 #////////////////////// CONFIGURACIÓN DE LOS FPS (ver linea 133)///////////////
 clock = pygame.time.Clock()
 
 #/////////////////FUNCION PARA ANIMAR A MARIO//////////////////////
 def redrawGameWindow():
     global walkcount
+    global lvl
     lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
+    lvl_bg2 = load_image("background2.png", IMG_DIR, alpha=False)
     p_inicio = inicio() 
     next_z = nextzone()
     lives = vidas()
     #CARGAR EL FONDO DEL NIVEL, LA PLATAFORMA DE INICIO Y EL CAMINO A LA SIGUIENTE ZONA
-    screen.blit(lvl_bg,(0,0))
-    screen.blit(p_inicio.image,(580,640))
-    screen.blit(next_z.image,(580,0))
+    
+    #si la variable lvl es 1 se muestra el nivel 1, si es 2 se muestra el nivel 2
+    #ver linea 204
+    if lvl == 1:
+        screen.blit(lvl_bg,(0,0))
+        screen.blit(p_inicio.image,(580,640))
+        screen.blit(next_z.image,(580,0))
+    elif lvl == 2:
+        screen.blit(lvl_bg2,(0,0))
+    
+    
     screen.blit(lives.image, (0,0))
     screen.blit(vida5, (120,42))
 
@@ -145,6 +156,7 @@ def main():
     global up
     global down
     global walkcount
+    global lvl
     
    ##############LINEA 133, FPS///////////////
     clock.tick(60)
@@ -160,25 +172,25 @@ def main():
         keys = pygame.key.get_pressed()
 
         #/////////FLECHA A LA IZQUIERDA//////////////
-        if keys[pygame.K_LEFT] and x > vel:
+        if keys[pygame.K_LEFT]: 
             x -= vel
             left = True
             right = False
         
         #//////////////FLECHA A LA DERECHA//////////////
-        elif keys[pygame.K_RIGHT] and x > vel: 
+        elif keys[pygame.K_RIGHT]: 
             x += vel
             left = False
             right = True
         
         #/////////////ARRIBA//////////////////
-        elif keys[pygame.K_UP] and y > vel: 
+        elif keys[pygame.K_UP]: 
             y -= vel
             up = True
             down = False
 
         #////////////ABAJO///////////////
-        elif keys[pygame.K_DOWN] and y > vel: 
+        elif keys[pygame.K_DOWN]: 
             y += vel
             up = False
             down = True
@@ -189,6 +201,16 @@ def main():
             right = False
             walkcount = 0
         
+        #esto es una idea que tuve, cuando la posición de mario sea la posición de la wea que indica el camino a la nueva zona
+        #la variable lvl cambia a 2 y pasa al segundo nivel
+        #eso es en teoría, en la practica no se por qué no funciona
+        #ver linea 110
+
+        #para pasar al 2do nivel
+        if x == 580 or x == 581 or x == 582 or x == 583 or x == 584 or x == 585 or x == 586 or x == 587 or x == 588 or x == 589 or x == 590:
+            if y == 25:
+                lvl = 2
+
         #//////////LA FUNCIÓN PARA ANIMAR A MARIO////////////
         redrawGameWindow()
 
