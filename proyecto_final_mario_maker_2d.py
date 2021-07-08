@@ -13,7 +13,7 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Mario Maker 2D")
 
-lvl = 2
+lvl = 1
 #///////////////////VARIABLES PARA EL SPRITE DE MARIO/////////////////
 x = 585
 y= 640
@@ -130,6 +130,7 @@ def redrawGameWindow():
     lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
     lvl_bg2 = load_image("background2.png", IMG_DIR, alpha=False)
     gameover = load_image("gameover.png", IMG_DIR, alpha=False)
+    victory = load_image("victory.png", IMG_DIR, alpha=True)
     p_inicio = inicio() 
     next_z = nextzone()
     lives = vidas()
@@ -168,6 +169,12 @@ def redrawGameWindow():
                     x = 585
                     y = 640
                     vida -= 1
+
+        #mensaje de victoria
+        if lvl == 2:
+            if x >= 1005 and x <= 1200:
+                if y >= 110 and y <= 140:
+                    screen.blit(victory, (0,0))
 
         if vida == 0:
             screen.blit(gameover, (0,0))
@@ -283,7 +290,6 @@ def main():
                 y= 640
         
         print(x,y)
-        print(vida)
         #//////////LA FUNCIÓN PARA ANIMAR A MARIO////////////
         redrawGameWindow()
 
