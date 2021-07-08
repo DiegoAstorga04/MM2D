@@ -13,7 +13,7 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Mario Maker 2D")
 
-lvl = 1
+lvl = 2
 #///////////////////VARIABLES PARA EL SPRITE DE MARIO/////////////////
 x = 585
 y= 640
@@ -75,6 +75,12 @@ class catapulta(pygame.sprite.Sprite):
         self.image = load_image("cannonxd.png", IMG_DIR, alpha=True)
         self.rect = self.image.get_rect()
 
+class meta(pygame.sprite.Sprite):
+
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("bandera.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
 
 #////////////////EL SPRITE DE MARIO ////////////////7
 class spritemario(pygame.sprite.Sprite):
@@ -120,14 +126,16 @@ def redrawGameWindow():
     global vida
     global x
     global y
-    
+
     lvl_bg = load_image("background.png", IMG_DIR, alpha=False)
     lvl_bg2 = load_image("background2.png", IMG_DIR, alpha=False)
+    gameover = load_image("gameover.png", IMG_DIR, alpha=False)
     p_inicio = inicio() 
     next_z = nextzone()
     lives = vidas()
     roca = pared()
     cannon = catapulta()
+    bandera = meta()
     #CARGAR EL FONDO DEL NIVEL, LA PLATAFORMA DE INICIO Y EL CAMINO A LA SIGUIENTE ZONA
     
 
@@ -143,6 +151,7 @@ def redrawGameWindow():
         screen.blit(lvl_bg2,(0,0))
         screen.blit(cannon.image, (800,620))
         screen.blit(cannon.image, (70,380))
+        screen.blit(bandera.image, (1000,0))
 
         #detección del precipicio 1
         if volando is False:
@@ -159,7 +168,12 @@ def redrawGameWindow():
                     x = 585
                     y = 640
                     vida -= 1
-    
+
+        if vida == 0:
+            screen.blit(gameover, (0,0))
+            if vida == -1:
+                vida = 5
+
     screen.blit(lives.image, (0,0))
     
 
@@ -193,6 +207,11 @@ def redrawGameWindow():
         screen.blit(mario.image, (x, y))
         walkcount = 0
     
+    if vida == 0:
+            screen.blit(gameover, (0,0))
+            if vida == -1:
+                vida = 5
+
     #/////////////ACTUALIZAR PANTALLA//////////////
     pygame.display.update() 
 
@@ -260,13 +279,11 @@ def main():
         if x >= 580 and x <= 590:
             if y >= 0 and y <= 10:
                 lvl = 2
-                #x = 585
-                #y= 640
-        
-        
-
+                x = 585
+                y= 640
         
         print(x,y)
+        print(vida)
         #//////////LA FUNCIÓN PARA ANIMAR A MARIO////////////
         redrawGameWindow()
 
