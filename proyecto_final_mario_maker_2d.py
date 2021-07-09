@@ -17,7 +17,7 @@ lvl = 1
 #///////////////////VARIABLES PARA EL SPRITE DE MARIO/////////////////
 x = 585
 y= 640
-vel = 4
+vel = 6
 volando = False
 vida = 5
 #////////////COMPROBACIÓN DE DIRECCIONES PARA MARIO//////////////
@@ -61,6 +61,13 @@ class nextzone(pygame.sprite.Sprite):
         self.image = load_image("next.png", IMG_DIR, alpha=True)
         self.rect = self.image.get_rect()
 
+class camino(pygame.sprite.Sprite):
+
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("camino.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
+
 class pared(pygame.sprite.Sprite):
     
     def __init__(self):    
@@ -80,6 +87,19 @@ class meta(pygame.sprite.Sprite):
     def __init__(self):    
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image("bandera.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
+
+class goomba(pygame.sprite.Sprite):
+    
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("goombaL2.png", IMG_DIR, alpha=True)
+        self.rect = self.image.get_rect()
+
+class planta(pygame.sprite.Sprite):
+    def __init__(self):    
+        pygame.sprite.Sprite.__init__(self)
+        self.image = load_image("planta2.png", IMG_DIR, alpha=True)
         self.rect = self.image.get_rect()
 
 #////////////////EL SPRITE DE MARIO ////////////////7
@@ -133,10 +153,13 @@ def redrawGameWindow():
     victory = load_image("victory.png", IMG_DIR, alpha=True)
     p_inicio = inicio() 
     next_z = nextzone()
+    path = camino()
     lives = vidas()
     roca = pared()
     cannon = catapulta()
     bandera = meta()
+    goombaL = goomba()
+    plantapiraña = planta()
     #CARGAR EL FONDO DEL NIVEL, LA PLATAFORMA DE INICIO Y EL CAMINO A LA SIGUIENTE ZONA
     
 
@@ -148,27 +171,114 @@ def redrawGameWindow():
         screen.blit(roca.image,(540,40))
         screen.blit(roca.image,(620,0))
         screen.blit(roca.image,(620,40))
+        
+        screen.blit(roca.image,(100,600))
+        screen.blit(roca.image,(100,560))
+        screen.blit(roca.image,(100,520))
+        screen.blit(roca.image,(140,480))
+        screen.blit(roca.image,(140,440))
+        screen.blit(roca.image,(180,400))
+        screen.blit(roca.image,(180,360))
+        screen.blit(roca.image,(220,320))
+        screen.blit(roca.image,(220,280))
+        screen.blit(roca.image,(220,240))
+        screen.blit(roca.image,(240,200))
+        screen.blit(roca.image,(240,160))
+        screen.blit(roca.image,(220,120))
+        screen.blit(roca.image,(260,80))
+        screen.blit(roca.image,(300,80))
+        screen.blit(roca.image,(340,80))
+        screen.blit(roca.image,(380,80))
+        screen.blit(roca.image,(380,40))
+        screen.blit(roca.image,(420,40))
+        screen.blit(roca.image,(460,40))
+        screen.blit(roca.image,(500,40))
+
+        screen.blit(roca.image,(1100,600))
+        screen.blit(roca.image,(1100,560))
+        screen.blit(roca.image,(1100,520))
+        screen.blit(roca.image,(1060,480))
+        screen.blit(roca.image,(1060,440))
+        screen.blit(roca.image,(1020,400))
+        screen.blit(roca.image,(1020,360))
+        screen.blit(roca.image,(980,320))
+        screen.blit(roca.image,(980,280))
+        screen.blit(roca.image,(980,240))
+        screen.blit(roca.image,(940,200))
+        screen.blit(roca.image,(940,160))
+        screen.blit(roca.image,(980,120))
+        screen.blit(roca.image,(940,80))
+        screen.blit(roca.image,(900,80))
+        screen.blit(roca.image,(860,80))
+        screen.blit(roca.image,(820,80))
+        screen.blit(roca.image,(820,40))
+        screen.blit(roca.image,(780,40))
+        screen.blit(roca.image,(740,40))
+        screen.blit(roca.image,(700,40))
+        screen.blit(roca.image,(660,40))
+
+        screen.blit(plantapiraña.image,(500,500))
+        screen.blit(plantapiraña.image,(650,500))
+        screen.blit(plantapiraña.image,(940,280))
+        screen.blit(plantapiraña.image,(270,280))
+        screen.blit(plantapiraña.image,(440,80))
+        screen.blit(plantapiraña.image,(760,80))
+        screen.blit(goombaL.image,(440,400))
+
     elif lvl == 2:
         screen.blit(lvl_bg2,(0,0))
         screen.blit(cannon.image, (800,620))
         screen.blit(cannon.image, (70,380))
         screen.blit(bandera.image, (1000,0))
+        screen.blit(goombaL.image, (200, 650))
+        screen.blit(goombaL.image, (900, 400))
+        screen.blit(goombaL.image, (400, 350))
+        screen.blit(goombaL.image, (200, 120))
+        screen.blit(goombaL.image, (900, 50))
+        screen.blit(goombaL.image, (1000, 600))
+
+        screen.blit(plantapiraña.image,(440,80))
+        screen.blit(plantapiraña.image,(600,400))
+
+        screen.blit(path.image, (790, 480))
+        screen.blit(path.image, (790, 520))
+        screen.blit(path.image, (790, 560))
+
+        screen.blit(path.image, (69, 170))
+        screen.blit(path.image, (69, 210))
+        screen.blit(path.image, (69, 250))
+        screen.blit(path.image, (69, 290))
+
 
         #detección del precipicio 1
         if volando is False:
-            if x >= 0 and x <= 1200:
-                if y >= 472 and y <= 564:
+            if x >= 0 and x <= 770:
+                if y >= 460 and y <= 560:
+                    x = 585
+                    y = 640
+                    vida -= 1
+        if volando is False:
+            if x >= 820 and x <= 1200:
+                if y >= 460 and y <= 560:
                     x = 585
                     y = 640
                     vida -= 1
 
         #detección del precipicio 2
         if volando is False:
-            if x >= 0 and x <= 1200:
+            if x >= 0 and x <= 46:
                 if y >= 160 and y <= 296:
                     x = 585
                     y = 640
                     vida -= 1
+        if volando is False:
+            if x >= 104 and x <= 1200:
+                if y >= 160 and y <= 296:
+                    x = 585
+                    y = 640
+                    vida -= 1
+
+        
 
         #mensaje de victoria
         if lvl == 2:
@@ -180,7 +290,8 @@ def redrawGameWindow():
             screen.blit(gameover, (0,0))
             if vida == -1:
                 vida = 5
-
+        
+        
     screen.blit(lives.image, (0,0))
     
 
